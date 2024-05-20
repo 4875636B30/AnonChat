@@ -1,4 +1,4 @@
-const socket = new WebSocket('wss://anonchat-6jz6.onrender.com');
+const socket = new WebSocket('wss://anonchat-6jz6.onrender.com:8080');
 
 socket.onopen = () => {
     console.log('Connection is open!');
