@@ -1,0 +1,87 @@
+html, body {
+    height: 96%;
+    margin: 0;
+}
+
+body{
+    background-color: rgb(41, 41, 41);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: white;
+}
+
+.main-container{
+    height: 100%;
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 90% 10%;
+    margin: 30px;
+}
+
+#users{
+    display: inline-block;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 10px;
+    background-color: rgb(57, 57, 57);
+    height: 99%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+.user{
+    padding-left: 0.7vw;
+    padding-right: 0.7vw;
+    padding-top: 0.5vw;
+    padding-bottom: 0.5vw;
+    margin: 11px;
+    font-size: 1vw;
+    border-bottom: 1px solid rgb(118, 118, 118);
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.user:hover{
+    background-color: rgb(69, 69, 69);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+
+
+#chatBox {
+    width: 70%;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 20px;
+    background-color: rgb(57, 57, 57);
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#chatPromt {
+    height: 50px;
+    width: 70%;
+    border-radius: 50px;
+    position: relative;
+    top: 100%;
+    left: 50%;
+    transform: translateY(-100%) translateX(-50%);
+    background-color: rgb(57, 57, 57);
+    border: 1px solid rgb(118, 118, 118);
+    outline: none;
+    color: white;
+    font-size: 1em;
+    padding-left: 20px;
+}
