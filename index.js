@@ -10,7 +10,7 @@ app.get('/', async (request, response) => {
 
 });
 
-app.listen(process.env.PORT || 3000, () => console.log(`App available on https://anonchat-6jz6.onrender.com`))
+app.listen(process.env.PORT || 3000, () => console.log(`App available on https://anonchat-6jz6.onrender.com:` + process.env.PORT))
 
 let users = ["Banana", "Orange", "Apple"];
 
