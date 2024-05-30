@@ -1,19 +1,30 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
     <title>AnonChat</title>
 </head>
 <body>
+    <button id="menuButton">Menu</button>
+    
     <div class="main-container">
-        <div id="users">
-            <div class="user">
-                <span class="username"> Hugo Kubik</span>
+        <div id="usersContainer">
+            <div id="onlineUsersTextContainer">
+                <span id="onlineUsersText">Online Users</span>
+            </div>
+            <div id="users">
+                <div class="user" onclick="connectToUser(this)">
+                    <span class="username">Temp Name</span>
+                </div>
             </div>
         </div>
         <div id="chatBox">
-
+            <div id="chatBoxHeader">
+                <span id="chatBoxHeaderText">Chat with Temp Name</span>
+            </div>
         </div>
         <input type="text" id="chatPromt" placeholder="Type here ...">
 

@@ -1,5 +1,5 @@
-html, body {
-    height: 96%;
+body {
+    height: 100%;
     margin: 0;
 }
 
@@ -12,17 +12,18 @@ body{
 .main-container{
     height: 100%;
     display: grid;
-    grid-template-columns: 15% 85%;
-    grid-template-rows: 90% 10%;
-    margin: 30px;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: 1fr 50px;
+    margin-left: 20px;
+    margin-top: 50px;
 }
 
-#users{
+#usersContainer{
+    height: 100%;
+    width: 220px;
     display: inline-block;
-    border: 1px solid rgb(118, 118, 118);
     border-radius: 10px;
     background-color: rgb(57, 57, 57);
-    height: 99%;
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 1;
@@ -32,24 +33,45 @@ body{
     transform: translateY(-50%);
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
+    z-index: 1;
+}
+
+#users{
+    display: inline-block;
+    border-radius: 10px;
+    background-color: rgb(57, 57, 57);
+    height: 100%;
+    width: 100%;
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: none;
 }
 
 
 .user{
-    padding-left: 0.7vw;
-    padding-right: 0.7vw;
-    padding-top: 0.5vw;
-    padding-bottom: 0.5vw;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     margin: 11px;
-    font-size: 1vw;
-    border-bottom: 1px solid rgb(118, 118, 118);
-    border: 1px solid rgb(118, 118, 118);
+    font-size: 1.2em;
     border-radius: 8px;
     transition: all 0.3s;
+    background-color: rgb(77, 77, 77);
+    text-wrap: nowrap;
+    overflow: hidden;
 }
 
 .user:hover{
-    background-color: rgb(69, 69, 69);
+    background-color: rgb(91, 91, 91);
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -57,8 +79,8 @@ body{
 
 
 #chatBox {
+    height: 500px;
     width: 70%;
-    border: 1px solid rgb(118, 118, 118);
     border-radius: 20px;
     background-color: rgb(57, 57, 57);
     grid-column-start: 2;
@@ -68,10 +90,14 @@ body{
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+    padding: 16px;
+    padding-bottom: 30px;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 #chatPromt {
-    height: 50px;
+    height: 80%;
     width: 70%;
     border-radius: 50px;
     position: relative;
@@ -79,9 +105,109 @@ body{
     left: 50%;
     transform: translateY(-100%) translateX(-50%);
     background-color: rgb(57, 57, 57);
-    border: 1px solid rgb(118, 118, 118);
     outline: none;
     color: white;
+    border: none;
     font-size: 1em;
     padding-left: 20px;
+    padding-right: 20px;
+    
+}
+
+.gotMessage{
+    padding: 8px;
+    display: inline;
+    border-radius: 10px 10px 10px 0px;
+    background-color: rgb(24, 202, 24);
+}
+
+.sentMessage{
+    padding: 8px;
+    display: inline-block;
+    border-radius: 10px 10px 0px 10px;
+    background-color: rgb(33, 103, 255);
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.gotMessageContainer{
+    display: block;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.sentMessageContainer{
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+}
+
+#onlineUsersTextContainer{
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 3px;
+}
+
+#onlineUsersText{
+    font-size: 1.2em;
+}
+
+#chatBoxHeader{
+    text-align: center;
+    margin-top: 10px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid white;
+}
+
+#menuButton {
+    display: none;
+}   
+
+#chatBoxHeaderText{
+    font-size: 1.5em;
+}
+
+@media (max-width: 600px) {
+    #menuButton {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        display: block;
+    }
+
+    #usersContainer {
+        position: fixed;
+        left: -220px;
+        transition: left 0.5s ease;
+        border-radius: 0px 10px 10px 0px;
+        border-right: 1px solid rgb(47, 47, 47);
+    }
+
+    #chatBox {
+        height: 60vh;
+        width: 90%;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        grid-row-start: 1;
+        grid-row-end: 2;
+        padding: 16px;
+        padding-bottom: 30px;
+    }
+
+    #chatPromt {
+        height: 90%;
+        margin-top: 10px;
+        width: 88%;
+        border-radius: 50px;
+        font-size: 1em;
+        padding-left: 20px;
+        padding-right: 20px;
+        grid-column-start: 1;
+        grid-column-end: 3;
+    }
+
+    .main-container {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
 }
