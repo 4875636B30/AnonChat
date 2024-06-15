@@ -116,8 +116,10 @@ body{
 
 .gotMessage{
     padding: 8px;
-    display: inline;
+    display: inline-block;
     border-radius: 10px 10px 10px 0px;
+    max-width: 70%;
+    word-wrap: break-word;
     background-color: rgb(24, 202, 24);
 }
 
@@ -133,13 +135,17 @@ body{
 .gotMessageContainer{
     display: block;
     text-align: left;
-    margin-top: 10px;
+    margin-top: 12px;
+    position: relative;
+    top: 55px;
 }
 
 .sentMessageContainer{
     display: block;
     text-align: right;
-    margin-top: 10px;
+    margin-top: 8px;
+    position: relative;
+    top: 55px;
 }
 
 #onlineUsersTextContainer{
@@ -155,8 +161,11 @@ body{
 #chatBoxHeader{
     text-align: center;
     margin-top: 10px;
+    width: 90%;
     padding-bottom: 15px;
     border-bottom: 1px solid white;
+    position: absolute;
+    background-color: rgb(57, 57, 57);
 }
 
 #menuButton {

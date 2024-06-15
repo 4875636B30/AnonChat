@@ -2,8 +2,8 @@ let username;
 let connectedWith;
 let isChatOpen = false;
 while (!username || !username.match(/^[a-zA-Z0-9]+$/)) {
-    //username = prompt("Enter a Username");
-    username = "test"
+    username = prompt("Enter a Username");
+    //username = "test"
     if(!username) {
         alert('Username is required to connect.');
         continue;
@@ -20,6 +20,11 @@ const socket = new WebSocket(`ws://${window.location.hostname}:8080`);
 socket.onopen = () => {
     console.log('Connection is open!');
     socket.send(`open:${username}`);
+
+
+
+    //DHKE
+    
 };
 
 function handleMessage(message, socket) {
