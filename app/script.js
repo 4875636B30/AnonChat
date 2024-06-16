@@ -1,6 +1,11 @@
 let username;
 let connectedWith;
 let isChatOpen = false;
+
+let keyPair;
+let publicKey;
+let sharedSecret;
+
 while (!username || !username.match(/^[a-zA-Z0-9]+$/)) {
     username = prompt("Enter a Username");
     //username = "test"
@@ -20,11 +25,6 @@ const socket = new WebSocket(`ws://${window.location.hostname}:8080`);
 socket.onopen = () => {
     console.log('Connection is open!');
     socket.send(`open:${username}`);
-
-
-
-    //DHKE
-    
 };
 
 function handleMessage(message, socket) {
@@ -46,11 +46,11 @@ function handleMessage(message, socket) {
         if(connections[chatWith] === username){
             socket.send(`chat:open`);
         }
-    }
+    } 
 
 }
 
-socket.onmessage = ({ data }) => {
+socket.onmessage = async ({ data }) => {
     console.log('Message from server:', data);
     const action = data.split(':')[0];
     if (action === 'users') {
@@ -79,9 +79,51 @@ socket.onmessage = ({ data }) => {
                 clickedUserElement.style.backgroundColor = 'rgb(15 217 30)';
         }
     } else if (action === 'message') {
-        const message = data.split(':')[2];
+        
+        const encryptedMessage = data.split(':').slice(2).join(':');
+
+        const decryptedMessage = CryptoJSAesJson.decrypt(encryptedMessage, sharedSecret.toString());
+
         const chatBox = document.getElementById('chatBox');
-        chatBox.innerHTML += `<div class="gotMessageContainer"><span class="gotMessage">${message}</span></div>`;
+        chatBox.innerHTML += `<div class="gotMessageContainer"><span class="gotMessage">${decryptedMessage}</span></div>`;
+    } else if (action === 'publicKey') {
+        //Get public key from data
+        //socket.send(`publicKey:${username}:${btoa(String.fromCharCode(...new Uint8Array(publicKey)))}`);
+        // Assume `message` is the received message
+        let parts = data.split(':');
+        let publicKeyString = parts[2];
+
+        // Convert base64 string back to byte array
+        let byteArray = new Uint8Array(atob(publicKeyString).split('').map(char => char.charCodeAt(0)));
+        keyPair = await generateKeyPair();
+        publicKey = await exportPublicKey(keyPair.publicKey);
+        socket.send(`publicKeyback:${username}:${btoa(String.fromCharCode(...new Uint8Array(publicKey)))}`);
+        
+        let importedPublicKey = await importPublicKey(byteArray);
+        sharedSecret = await deriveSharedSecret(keyPair.privateKey, importedPublicKey);
+
+        console.log("Shared Secret:", new Uint8Array(sharedSecret));
+
+    } else if (action === 'publicKeyback') {
+        //Get public key from data
+        //socket.send(`publicKey:${username}:${btoa(String.fromCharCode(...new Uint8Array(publicKey)))}`);
+        // Assume `message` is the received message
+        let parts = data.split(':');
+        let publicKeyString = parts[2];
+
+        // Convert base64 string back to byte array
+        let byteArray = new Uint8Array(atob(publicKeyString).split('').map(char => char.charCodeAt(0)));
+        
+        let importedPublicKey = await importPublicKey(byteArray);
+        sharedSecret = await deriveSharedSecret(keyPair.privateKey, importedPublicKey);
+
+        console.log("Shared Secret:", new Uint8Array(sharedSecret));
+
+        let encryptedMessage = CryptoJSAesJson.encrypt(chatPromt.value, sharedSecret.toString());
+
+        socket.send(`message:${username}:${connectedWith}:${encryptedMessage}`);
+        chatPromt.value = '';
+        console.log('Encrypted Message:', encryptedMessage);
     }
 };
 
@@ -96,18 +138,20 @@ socket.onerror = (error) => {
 };
 
 
-window.addEventListener('DOMContentLoaded', () => { 
+window.addEventListener('DOMContentLoaded', async () => { 
     const chatPromt = document.getElementById('chatPromt');
     const chatBox = document.getElementById('chatBox');
-    chatPromt.onkeyup = (event) => {
+    chatPromt.onkeyup = async (event) => {
         if (event.key === 'Enter') {
             if (!chatPromt.value) {
                 return;
             }
             if(isChatOpen){
                 chatBox.innerHTML += `<div class="sentMessageContainer"><span class="sentMessage">${chatPromt.value}</span></div>`;
-                socket.send(`message:${username}:${connectedWith}:${chatPromt.value}`);
-                chatPromt.value = '';
+
+                keyPair = await generateKeyPair();
+                publicKey = await exportPublicKey(keyPair.publicKey);
+                socket.send(`publicKey:${username}:${btoa(String.fromCharCode(...new Uint8Array(publicKey)))}`);
             }
         }
     }

@@ -92,10 +92,28 @@ function handleMessage(message, socket) {
         if(chatWith){
             let rxSocket = socketUserpairs[chatWith];
             if(rxSocket){
-                rxSocket.send(`message:${username}:${message.split(':')[3]}`);
+                //Content = everything after the first 3 colons
+                let content = message.split(':').slice(3).join(':');
+                rxSocket.send(`message:${username}:${content}`);
             }
         }
-    }
+    } else if (action === 'publicKey') {
+        let chatWith = connections[username];
+        if(chatWith){
+            let rxSocket = socketUserpairs[chatWith];
+            if(rxSocket){
+                rxSocket.send(message);
+            }
+        }
+    } else if (action === 'publicKeyback') {
+        let chatWith = connections[username];
+        if(chatWith){
+            let rxSocket = socketUserpairs[chatWith];
+            if(rxSocket){
+                rxSocket.send(message);
+            }
+        }
+    } 
 
 }
 
