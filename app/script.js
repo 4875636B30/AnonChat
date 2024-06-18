@@ -82,7 +82,8 @@ socket.onmessage = async ({ data }) => {
         
         const encryptedMessage = data.split(':').slice(2).join(':');
 
-        const decryptedMessage = CryptoJSAesJson.decrypt(encryptedMessage, sharedSecret.toString());
+        new TextDecoder().decode(sharedSecret)
+        const decryptedMessage = CryptoJSAesJson.decrypt(encryptedMessage, (new TextDecoder().decode(sharedSecret)));
 
         const chatBox = document.getElementById('chatBox');
         chatBox.innerHTML += `<div class="gotMessageContainer"><span class="gotMessage">${decryptedMessage}</span></div>`;
@@ -119,7 +120,7 @@ socket.onmessage = async ({ data }) => {
 
         console.log("Shared Secret:", new Uint8Array(sharedSecret));
 
-        let encryptedMessage = CryptoJSAesJson.encrypt(chatPromt.value, sharedSecret.toString());
+        let encryptedMessage = CryptoJSAesJson.encrypt(chatPromt.value, (new TextDecoder().decode(sharedSecret)));
 
         socket.send(`message:${username}:${connectedWith}:${encryptedMessage}`);
         chatPromt.value = '';
